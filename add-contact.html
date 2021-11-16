@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <title>Document</title>
+</head>
+<body class="bg-secondary">
+    <h1 class="text-center bg-dark p-3"><img src="images/logo.png" class="img-fluid" he ></h1>
+    <br>
+    <form id="editForm">
+        <div class="container p-5">
+            <div class="row">
+                <label class="bg-warning text-dark text-center" for="firstname">First Name</label>
+                <input class="mb-4" type="text" name="firstname" id="firstname">
+                <br>
+                <label class="bg-warning text-dark text-center" for="lastname">Last Name</label>
+                <input class="mb-4" type="text" name="lastname" id="lastname">
+                <br>
+                <label class="bg-warning text-dark text-center" for="mobile">Mobile</label>
+                <input class="mb-4" type="text" name="mobile" id="mobile">
+                <br>
+                <label class="bg-warning text-dark text-center" for="email">Email</label>
+                <input class="mb-4" type="text" name="email" id="email">
+                <br>
+                <label class="bg-warning text-dark text-center" for="avatar">Select a file</label>
+                <input class="form-control mb-4" type="file" name="avatar" id="avatar">
+                <br>
+                <button class="bg-success mt-1" id="submitForm" type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+    <br>
+    <button class="bg-success d-grid gap-2 col-6 mx-auto m-4" id="homeLink" type="button">Home</button>
+    
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="config.js"></script>
+    <script>
+
+        document.getElementById("submitForm").addEventListener('click', submitForm);
+        document.getElementById("homeLink").addEventListener('click', homeLink);
+
+        function submitForm(e){
+            e.preventDefault();
+
+            const form = new FormData(document.querySelector('#editForm'));
+            form.append('apiKey', apiKey);
+
+            fetch(rootPath + 'controller/insert-contact/' , {
+                method: 'POST', 
+                headers: {'Accept': 'application/json, *.*'}, 
+                body: form
+            })
+            .then(function(response){
+                return response.text();
+            })
+            .then(function(data){
+                if(data == "1"){
+                    alert("Contact Added");
+                    homeLink();
+                }else{
+                    alert(data);
+                    homeLink();
+                }
+            })
+        }
+
+        function homeLink(){
+            window.open("index.html", "_self");
+        }
+
+    </script>
+</body>
+</html>
